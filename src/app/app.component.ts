@@ -1,13 +1,21 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  template: `
+    <mat-toolbar color="primary">
+      <span>Health Challenge Tracker</span>
+    </mat-toolbar>
+    <div class="container">
+      <app-workout-form></app-workout-form>
+      <app-workout-list></app-workout-list>
+      <app-workout-chart></app-workout-chart>
+    </div>
+  `,
+  styles: [`
+    .container {
+      padding: 20px;
+    }
+  `]
 })
-export class AppComponent {
-  title = 'health-tracker-assignment';
-}
+export class AppComponent {}
