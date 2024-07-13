@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { WorkoutService } from '../../services/workout.service';
 import { User } from '../../models/workout.model';
 
@@ -7,7 +9,7 @@ import { User } from '../../models/workout.model';
   selector: 'app-workout-list',
   template: `
     <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search by name">
+      <input matInput (keyup)="onFilterKeyup($event)" placeholder="Search by name">
     </mat-form-field>
     <mat-form-field>
       <mat-select placeholder="Filter by Workout Type" (selectionChange)="applyTypeFilter($event.value)">
@@ -54,10 +56,10 @@ import { User } from '../../models/workout.model';
 })
 export class WorkoutListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'workouts', 'numberOfWorkouts', 'totalMinutes'];
-  dataSource: MatTableDataSource<User>;
+  dataSource!: MatTableDataSource<User>; // Use definite assignment assertion
   users$: Observable<User[]>;
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator; // Use definite assignment assertion
 
   constructor(private workoutService: WorkoutService) {
     this.users$ = this.workoutService.getUsers();
@@ -68,6 +70,11 @@ export class WorkoutListComponent implements OnInit {
       this.dataSource = new MatTableDataSource(users);
       this.dataSource.paginator = this.paginator;
     });
+  }
+
+  onFilterKeyup(event: KeyboardEvent) {
+    const inputElement = event.target as HTMLInputElement;
+    this.applyFilter(inputElement.value);
   }
 
   applyFilter(filterValue: string) {
@@ -89,3 +96,4 @@ export class WorkoutListComponent implements OnInit {
     return user.workouts.reduce((total, w) => total + w.minutes, 0);
   }
 }
+

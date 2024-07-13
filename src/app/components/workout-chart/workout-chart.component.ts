@@ -22,7 +22,7 @@ import { User } from '../../models/workout.model';
 })
 export class WorkoutChartComponent implements OnInit {
   users: User[] = [];
-  chart: Chart;
+  chart!: Chart; // Using definite assignment assertion
 
   constructor(private workoutService: WorkoutService) {}
 
@@ -51,16 +51,16 @@ export class WorkoutChartComponent implements OnInit {
       },
       options: {
         responsive: true,
-        title: {
-          display: true,
-          text: `${user.name}'s Workout Progress`
+        plugins: {
+          title: {
+            display: true,
+            text: `${user.name}'s Workout Progress`
+          }
         },
         scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
+          y: {
+            beginAtZero: true
+          }
         }
       }
     });
@@ -68,10 +68,15 @@ export class WorkoutChartComponent implements OnInit {
 
   updateChart(user: User) {
     const workoutData = this.prepareChartData(user);
-    this.chart.data.labels = workoutData.types;
-    this.chart.data.datasets[0].data = workoutData.minutes;
-    this.chart.options.title.text = `${user.name}'s Workout Progress`;
-    this.chart.update();
+    if (this.chart) {
+      this.chart.data.labels = workoutData.types;
+      this.chart.data.datasets[0].data = workoutData.minutes;
+
+      if (this.chart.options?.plugins?.title) {
+        this.chart.options.plugins.title.text = `${user.name}'s Workout Progress`;
+      }
+      this.chart.update();
+    }
   }
 
   prepareChartData(user: User) {
@@ -91,3 +96,4 @@ export class WorkoutChartComponent implements OnInit {
     return { types, minutes };
   }
 }
+
