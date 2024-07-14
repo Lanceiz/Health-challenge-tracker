@@ -1,28 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Chart, ChartConfiguration } from 'chart.js/auto';
 import { WorkoutService } from '../../services/workout.service';
 import { User } from '../../models/workout.model';
 
 @Component({
   selector: 'app-workout-chart',
-  template: `
-    <mat-form-field>
-      <mat-select placeholder="Select User" (selectionChange)="updateChart($event.value)">
-        <mat-option *ngFor="let user of users" [value]="user">{{user.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <canvas id="workoutChart"></canvas>
-  `,
-  styles: [`
-    canvas {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-  `]
+  templateUrl: './workout-chart.component.html',
 })
 export class WorkoutChartComponent implements OnInit {
+  @ViewChild('workoutChart') chartCanvas!: ElementRef<HTMLCanvasElement>;
+  
   users: User[] = [];
-  chart!: Chart; // Using definite assignment assertion
+  chart?: Chart;
 
   constructor(private workoutService: WorkoutService) {}
 
@@ -30,40 +19,46 @@ export class WorkoutChartComponent implements OnInit {
     this.workoutService.getUsers().subscribe(users => {
       this.users = users;
       if (users.length > 0) {
-        this.createChart(users[0]);
+        setTimeout(() => this.createChart(users[0]), 0);
       }
     });
   }
 
   createChart(user: User) {
-    const ctx = document.getElementById('workoutChart') as HTMLCanvasElement;
-    const workoutData = this.prepareChartData(user);
+    if (this.chartCanvas) {
+      const ctx = this.chartCanvas.nativeElement.getContext('2d');
+      if (ctx) {
+        const workoutData = this.prepareChartData(user);
+        
+        const config: ChartConfiguration = {
+          type: 'bar',
+          data: {
+            labels: workoutData.types,
+            datasets: [{
+              label: 'Workout Minutes',
+              data: workoutData.minutes,
+              backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: `${user.name}'s Workout Progress`
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        };
 
-    this.chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: workoutData.types,
-        datasets: [{
-          label: 'Workout Minutes',
-          data: workoutData.minutes,
-          backgroundColor: 'rgba(54, 162, 235, 0.6)'
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: `${user.name}'s Workout Progress`
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
+        this.chart = new Chart(ctx, config);
       }
-    });
+    }
   }
 
   updateChart(user: User) {
@@ -71,11 +66,10 @@ export class WorkoutChartComponent implements OnInit {
     if (this.chart) {
       this.chart.data.labels = workoutData.types;
       this.chart.data.datasets[0].data = workoutData.minutes;
-
-      if (this.chart.options?.plugins?.title) {
-        this.chart.options.plugins.title.text = `${user.name}'s Workout Progress`;
-      }
+      this.chart.options.plugins!.title!.text = `${user.name}'s Workout Progress`;
       this.chart.update();
+    } else {
+      this.createChart(user);
     }
   }
 
@@ -96,4 +90,3 @@ export class WorkoutChartComponent implements OnInit {
     return { types, minutes };
   }
 }
-

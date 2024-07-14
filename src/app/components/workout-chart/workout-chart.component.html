@@ -1,0 +1,11 @@
+<h2 class="mb-4 flex justify-center items-center text-3xl font-extrabold">Workout Progress</h2>
+<div class="mb-4 w-full flex justify-center items-center">
+  <mat-form-field class="w-2/3">
+    <mat-select placeholder="Select User" (selectionChange)="updateChart($event.value)">
+      <mat-option *ngFor="let user of users" [value]="user">{{user.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="h-96 w-2/3 flex justify-center ml-60"> 
+  <canvas #workoutChart class="w-full h-full"></canvas>
+</div>
