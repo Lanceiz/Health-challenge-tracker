@@ -1,27 +1,50 @@
-# HealthTrackerAssignment
+# Health Challenge Tracker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+A health challenge tracker application built with Angular. Users can add their workouts, filter by workout type, and view their progress in a chart.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Add new users and their workout details.
+- Display users and their workouts in a table.
+- Filter users by name and workout type.
+- Paginate the user list if there are more than 5 users.
+- Display workout progress using charts.
+- Store user data using `localStorage`.
 
-## Code scaffolding
+## Hosted URL
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The application is hosted at [Netlify](https://health-challenge-tracker.netlify.app/).
 
-## Build
+## Getting Started
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Follow these instructions to set up and run the project locally.
 
-## Running unit tests
+### Prerequisites
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- [Node.js](https://nodejs.org/en/download/) (v14 or above)
+- [Angular CLI](https://angular.io/cli) (v12 or above)
 
-## Running end-to-end tests
+### Installation
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. Clone the repository:
 
-## Further help
+   ```bash
+   git clone https://github.com/your-username/health-challenge-tracker.git
+   cd health-challenge-tracker
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+2. Install dependencies:
+
+    ```bash
+    npm install
+
+### Running the application
+
+    Start the development server:
+    ```bash
+    ng serve
+
+### Running the tests
+
+    Running all the tests:
+    ```bash
+    ng test
