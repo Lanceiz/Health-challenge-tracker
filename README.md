@@ -13,7 +13,7 @@ A health challenge tracker application built with Angular. Users can add their w
 
 ## Hosted URL
 
-The application is hosted at [Netlify](https://health-challenge-tracker.netlify.app/).
+The application is hosted at [https://health-challenge-tracker.netlify.app/]
 
 ## Getting Started
 
