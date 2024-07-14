@@ -39,10 +39,12 @@ Follow these instructions to set up and run the project locally.
 
 ### Running the application
 
-    Start the development server:
+Start the development server:
+    
     ng serve
 
 ### Running the tests
 
-    Running all the tests:
+Running all the tests:
+    
     ng test
