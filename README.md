@@ -29,8 +29,8 @@ Follow these instructions to set up and run the project locally.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/health-challenge-tracker.git
-   cd health-challenge-tracker
+   git clone https://github.com/Lanceiz/Health-challenge-tracker.git
+   cd Health-challenge-tracker
 
 2. Install dependencies:
 
