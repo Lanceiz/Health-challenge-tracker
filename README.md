@@ -40,11 +40,9 @@ Follow these instructions to set up and run the project locally.
 ### Running the application
 
     Start the development server:
-    ```bash
     ng serve
 
 ### Running the tests
 
     Running all the tests:
-    ```bash
     ng test
