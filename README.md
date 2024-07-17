@@ -48,3 +48,7 @@ Start the development server:
 Running all the tests:
     
     ng test
+
+Code Coverage
+
+![alt text](codeCoverage.png)
